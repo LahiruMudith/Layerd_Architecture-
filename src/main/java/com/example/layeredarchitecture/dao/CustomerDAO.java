@@ -13,6 +13,6 @@ public interface CustomerDAO {
     public boolean existCustomer(String id) throws SQLException, ClassNotFoundException;
     public void deleteCustomer(String id) throws SQLException, ClassNotFoundException;
     public String genarateNewId() throws SQLException, ClassNotFoundException;
-    public void getAllcustomerId() throws SQLException, ClassNotFoundException;
+//    public void getAllcustomerId() throws SQLException, ClassNotFoundException;
     public CustomerDTO searchCustomer(String id) throws SQLException, ClassNotFoundException;
 }

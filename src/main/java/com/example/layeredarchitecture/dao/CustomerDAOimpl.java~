@@ -35,8 +35,8 @@ public class CustomerDAOimpl implements CustomerDAO{
     }
     @Override
     public boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
-        ResultSet rst = SqlUtil.execute("SELECT id FROM Customer WHERE id=?", id);
-        return rst.next();
+        return SqlUtil.execute("SELECT id FROM Customer WHERE id=?", id);
+
     }
     @Override
     public void deleteCustomer(String id) throws SQLException, ClassNotFoundException {

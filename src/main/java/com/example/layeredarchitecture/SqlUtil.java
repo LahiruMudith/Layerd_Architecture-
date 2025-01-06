@@ -8,13 +8,17 @@ import java.sql.SQLException;
 
 public class SqlUtil {
 
-    public SqlUtil(String sql) throws SQLException, ClassNotFoundException {
+    public static <T> T execute(String sql,Object... obj) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         PreparedStatement pstm = connection.prepareStatement(sql);
+        for (int i = 0; i < obj.length; i++) {
+            pstm.setObject(i+1, obj[i]);
+        }
+
         if (sql.startsWith("SELECT")){
-            pstm.executeQuery();
+            return (T) pstm.executeQuery();
         }else {
-            pstm.executeUpdate()
+            return  (T) (Boolean) (pstm.executeUpdate()>0);
         }
 
     }
