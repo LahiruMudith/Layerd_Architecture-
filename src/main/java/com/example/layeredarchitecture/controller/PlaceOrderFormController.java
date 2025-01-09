@@ -337,6 +337,7 @@ public class PlaceOrderFormController {
 
         if (b) {
             new Alert(Alert.AlertType.INFORMATION, "Order has been placed successfully").show();
+
         } else {
             new Alert(Alert.AlertType.ERROR, "Order has not been placed successfully").show();
         }
@@ -377,26 +378,36 @@ public class PlaceOrderFormController {
 //            stm.setString(3, customerId);
 
             if (!isOrderSaved) {
+                System.out.println("Order Saved Failed!");
                 connection.rollback();
                 connection.setAutoCommit(true);
                 return false;
             }
+            System.out.println("Order Saved Done!");
 
             OrderDetailsDAOimpl orderDetailsDAOimpl = new OrderDetailsDAOimpl();
-            orderDetailsDAOimpl.saveOrderDetails(orderId, orderDetails, stm, connection);
+//            orderDetailsDAOimpl.saveOrderDetails(orderId, orderDetails, stm, connection);
 //            stm = connection.prepareStatement("INSERT INTO OrderDetails (oid, itemCode, unitPrice, qty) VALUES (?,?,?,?)");
 
             for (OrderDetailDTO detail : orderDetails) {
-                stm.setString(1, orderId);
-                stm.setString(2, detail.getItemCode());
-                stm.setBigDecimal(3, detail.getUnitPrice());
-                stm.setInt(4, detail.getQty());
+//                stm.setString(1, orderId);
+//                stm.setString(2, detail.getItemCode());
+//                stm.setBigDecimal(3, detail.getUnitPrice());
+//                stm.setInt(4, detail.getQty());
 
-                if (stm.executeUpdate() != 1) {
+//                if (stm.executeUpdate() != 1) {
+//                    connection.rollback();
+//                    connection.setAutoCommit(true);
+//                    return false;
+//                }
+                boolean b = orderDetailsDAOimpl.saveOrderDetails(orderId, detail, stm, connection);
+                if (b == false) {
+                    System.out.println("Order Details Save Failed!");
                     connection.rollback();
                     connection.setAutoCommit(true);
                     return false;
                 }
+                System.out.println("Order Details Save Done!");
 
 //                //Search & Update Item
                 ItemDTO item = findItem(detail.getItemCode());
@@ -409,12 +420,13 @@ public class PlaceOrderFormController {
 //                pstm.setBigDecimal(2, item.getUnitPrice());
 //                pstm.setInt(3, item.getQtyOnHand());
 //                pstm.setString(4, item.getCode());
-
-                if (IsItemUpdated) {
+                if (!IsItemUpdated) {
+                    System.out.println("Item Update Failed!");
                     connection.rollback();
                     connection.setAutoCommit(true);
                     return false;
                 }
+                System.out.println("Item Update Done!");
             }
 
             connection.commit();

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class OrderDetailsDAOimpl implements OrderDetailsDAO {
     @Override
-    public boolean saveOrderDetails(String orderId, OrderDetailDTO detail, PreparedStatement stm, Connection connection) throws SQLException, ClassNotFoundException {
+    public boolean saveOrderDetails(String orderId, OrderDetailDTO detailDTO, PreparedStatement stm, Connection connection) throws SQLException, ClassNotFoundException {
         stm = connection.prepareStatement("INSERT INTO OrderDetails (oid, itemCode, unitPrice, qty) VALUES (?,?,?,?)");
 //        for (OrderDetailDTO detail : orderDetails) {
             stm.setString(1, orderId);

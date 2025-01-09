@@ -18,12 +18,14 @@ public class ItemDAOimpl implements ItemDAO{
     }
     @Override
     public boolean isItemUpdated(ItemDTO itemDTO) throws SQLException, ClassNotFoundException {
-        return SqlUtil.execute("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?",
+        ResultSet rst =         SqlUtil.execute("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?",
                 itemDTO.getDescription(),
                 itemDTO.getUnitPrice(),
                 itemDTO.getQtyOnHand(),
                 itemDTO.getCode()
         );
+        return rst.next();
+
     }
     @Override
     public void deleteItem(String code) throws SQLException, ClassNotFoundException {

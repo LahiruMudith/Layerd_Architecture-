@@ -32,6 +32,7 @@ public class OrderDAOimpl implements OrderDAO {
         stm.setString(3, customerId);
 
         if (stm.executeUpdate() == 1){
+            System.out.println("Order Saved Done!");
             return true;
         }
         return false;
