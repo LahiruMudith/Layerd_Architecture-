@@ -61,8 +61,8 @@ public class OrderDetailTM{
         this.total = total;
     }
 
-    @Override
-    public String toString() {
+
+public String toString() {
         return "OrderDetailTM{" +
                 "code='" + code + '\'' +
                 ", description='" + description + '\'' +

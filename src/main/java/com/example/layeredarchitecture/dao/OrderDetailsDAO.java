@@ -7,6 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface OrderDetailsDAO {
-    public boolean saveOrderDetails(String orderId, OrderDetailDTO detail, Connection connection) throws SQLException, ClassNotFoundException;
+public interface OrderDetailsDAO extends CrudDAO<OrderDetailDTO> {
+//    public boolean saveOrderDetails(String orderId, OrderDetailDTO detail, Connection connection) throws SQLException, ClassNotFoundException;
 }

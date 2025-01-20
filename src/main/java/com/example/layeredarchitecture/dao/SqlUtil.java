@@ -1,4 +1,4 @@
-package com.example.layeredarchitecture;
+package com.example.layeredarchitecture.dao;
 
 import com.example.layeredarchitecture.db.DBConnection;
 

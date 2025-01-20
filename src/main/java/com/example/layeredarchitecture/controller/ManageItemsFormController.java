@@ -1,7 +1,7 @@
 package com.example.layeredarchitecture.controller;
 
-import com.example.layeredarchitecture.dao.ItemDAOimpl;
-import com.example.layeredarchitecture.db.DBConnection;
+import com.example.layeredarchitecture.bo.custom.impl.ItemBOImpl;
+import com.example.layeredarchitecture.dao.custom.impl.itemBOImpl;
 import com.example.layeredarchitecture.model.ItemDTO;
 import com.example.layeredarchitecture.view.tdm.ItemTM;
 import com.jfoenix.controls.JFXButton;
@@ -71,8 +71,8 @@ public class ManageItemsFormController {
     private void loadAllItems() {
         tblItems.getItems().clear();
         try {
-            ItemDAOimpl itemDAOimpl = new ItemDAOimpl();
-            ArrayList<ItemDTO> allItem = itemDAOimpl.getAllItem();
+            ItemBOImpl itemBOImpl = new ItemBOImpl();
+            ArrayList<ItemDTO> allItem = itemBOImpl.getAll();
 
 
             /*Get all items*/
@@ -138,8 +138,8 @@ public class ManageItemsFormController {
             if (!existItem(code)) {
                 new Alert(Alert.AlertType.ERROR, "There is no such item associated with the id " + code).show();
             }
-            ItemDAOimpl itemDAOimpl = new ItemDAOimpl();
-            itemDAOimpl.deleteItem(code);
+            ItemBOImpl itemBOImpl = new ItemBOImpl();
+            itemBOImpl.delete(code);
 //            Connection connection = DBConnection.getDbConnection().getConnection();
 //            PreparedStatement pstm = connection.prepareStatement("DELETE FROM Item WHERE code=?");
 //            pstm.setString(1, code);
@@ -183,8 +183,8 @@ public class ManageItemsFormController {
                 if (existItem(code)) {
                     new Alert(Alert.AlertType.ERROR, code + " already exists").show();
                 }
-                ItemDAOimpl itemDAOimpl = new ItemDAOimpl();
-                itemDAOimpl.saveItem(new ItemDTO(code,description,unitPrice,qtyOnHand));
+                ItemBOImpl itemBOImpl = new ItemBOImpl();
+                itemBOImpl.save(new ItemDTO(code,description,unitPrice,qtyOnHand));
                 //Save Item
 //                Connection connection = DBConnection.getDbConnection().getConnection();
 //                PreparedStatement pstm = connection.prepareStatement("INSERT INTO Item (code, description, unitPrice, qtyOnHand) VALUES (?,?,?,?)");
@@ -206,8 +206,8 @@ public class ManageItemsFormController {
                 if (!existItem(code)) {
                     new Alert(Alert.AlertType.ERROR, "There is no such item associated with the id " + code).show();
                 }
-                ItemDAOimpl itemDAOimpl = new ItemDAOimpl();
-                itemDAOimpl.updateItem(new ItemDTO(code,description,unitPrice,qtyOnHand));
+                ItemBOImpl itemBOImpl = new ItemBOImpl();
+                itemBOImpl.update(new ItemDTO(code,description,unitPrice,qtyOnHand));
                 /*Update Item*/
 //                Connection connection = DBConnection.getDbConnection().getConnection();
 //                PreparedStatement pstm = connection.prepareStatement("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?");
@@ -234,8 +234,8 @@ public class ManageItemsFormController {
 
     //less boilerplate code
     private boolean existItem(String code) throws SQLException, ClassNotFoundException {
-        ItemDAOimpl itemDAOimpl = new ItemDAOimpl();
-        return itemDAOimpl.existItem(code);
+        itemBOImpl itemBOImpl = new itemBOImpl();
+        return itemBOImpl.exist(code);
 //        Connection connection = DBConnection.getDbConnection().getConnection();
 //        PreparedStatement pstm = connection.prepareStatement("SELECT code FROM Item WHERE code=?");
 //        pstm.setString(1, code);
@@ -246,17 +246,8 @@ public class ManageItemsFormController {
     //less boilerplate code
     private String generateNewId() {
         try {
-            ItemDAOimpl itemDAOimpl = new ItemDAOimpl();
-            return itemDAOimpl.genarateNewId();
-//            Connection connection = DBConnection.getDbConnection().getConnection();
-//            ResultSet rst = connection.createStatement().executeQuery("SELECT code FROM Item ORDER BY code DESC LIMIT 1;");
-//            if (rst.next()) {
-//                String id = rst.getString("code");
-//                int newItemId = Integer.parseInt(id.replace("I00-", "")) + 1;
-//                return String.format("I00-%03d", newItemId);
-//            } else {
-//                return "I00-001";
-//            }
+            ItemBOImpl itemBOImpl = new ItemBOImpl();
+            return itemBOImpl.genarateNewId();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         } catch (ClassNotFoundException e) {

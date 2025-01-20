@@ -1,6 +1,7 @@
 package com.example.layeredarchitecture.controller;
 
-import com.example.layeredarchitecture.dao.CustomerDAOimpl;
+import com.example.layeredarchitecture.bo.custom.impl.CustomerBOImpl;
+import com.example.layeredarchitecture.dao.custom.impl.customerBOimpl;
 import com.example.layeredarchitecture.model.CustomerDTO;
 import com.example.layeredarchitecture.view.tdm.CustomerTM;
 import com.jfoenix.controls.JFXButton;
@@ -72,8 +73,8 @@ public class ManageCustomersFormController {
 //            Connection connection = DBConnection.getDbConnection().getConnection();
 //            Statement stm = connection.createStatement();
 //            ResultSet rst = stm.executeQuery("SELECT * FROM Customer");
-            CustomerDAOimpl customerDAOimpl = new CustomerDAOimpl();
-            ArrayList<CustomerDTO> allCustomer = customerDAOimpl.getAllCustomer();
+            CustomerBOImpl customerBOimpl = new CustomerBOImpl();
+            ArrayList<CustomerDTO> allCustomer = customerBOimpl.getAll();
 
             for (CustomerDTO customer : allCustomer){
                 tblCustomers.getItems().add(new CustomerTM(customer.getId(), customer.getName(), customer.getAddress()));
@@ -147,8 +148,8 @@ public class ManageCustomersFormController {
                 if (existCustomer(id)) {
                     new Alert(Alert.AlertType.ERROR, id + " already exists").show();
                 }
-                CustomerDAOimpl customerDAOimpl = new CustomerDAOimpl();
-                customerDAOimpl.saveCustomer(new CustomerDTO(id,name,address));
+                CustomerBOImpl customerBOimpl = new CustomerBOImpl();
+                customerBOimpl.save(new CustomerDTO(id,name,address));
 //                Connection connection = DBConnection.getDbConnection().getConnection();
 //                PreparedStatement pstm = connection.prepareStatement("INSERT INTO Customer (id,name, address) VALUES (?,?,?)");
 //                pstm.setString(1, id);
@@ -170,8 +171,8 @@ public class ManageCustomersFormController {
                 if (!existCustomer(id)) {
                     new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
                 }
-                CustomerDAOimpl customerDAOimpl = new CustomerDAOimpl();
-                customerDAOimpl.updateCustomer(new CustomerDTO(id,name,address));
+                CustomerBOImpl customerBOimpl = new CustomerBOImpl();
+                customerBOimpl.update(new CustomerDTO(id,name,address));
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "Failed to update the customer " + id + e.getMessage()).show();
             } catch (ClassNotFoundException e) {
@@ -189,8 +190,8 @@ public class ManageCustomersFormController {
 
     //less boilerplate code
     boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
-        CustomerDAOimpl customerDAOimpl = new CustomerDAOimpl();
-        return customerDAOimpl.existCustomer(id);
+        CustomerBOImpl customerBOimpl = new CustomerBOImpl();
+        return customerBOimpl.exist(id);
 //        Connection connection = DBConnection.getDbConnection().getConnection();
 //        PreparedStatement pstm = connection.prepareStatement("SELECT id FROM Customer WHERE id=?");
 //        pstm.setString(1, id);
@@ -204,8 +205,8 @@ public class ManageCustomersFormController {
             if (!existCustomer(id)) {
                 new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
             }
-            CustomerDAOimpl customerDAOimpl = new CustomerDAOimpl();
-            customerDAOimpl.deleteCustomer(id);
+            CustomerBOImpl customerBOimpl = new CustomerBOImpl();
+            customerBOimpl.delete(id);
 //            Connection connection = DBConnection.getDbConnection().getConnection();
 //            PreparedStatement pstm = connection.prepareStatement("DELETE FROM Customer WHERE id=?");
 //            pstm.setString(1, id);
@@ -225,17 +226,8 @@ public class ManageCustomersFormController {
     //less boilerplate code
     private String generateNewId() {
         try {
-            CustomerDAOimpl customerDAOimpl = new CustomerDAOimpl();
-            return customerDAOimpl.genarateNewId();
-//            Connection connection = DBConnection.getDbConnection().getConnection();
-//            ResultSet rst = connection.createStatement().executeQuery("SELECT id FROM Customer ORDER BY id DESC LIMIT 1;");
-//            if (rst.next()) {
-//                String id = rst.getString("id");
-//                int newCustomerId = Integer.parseInt(id.replace("C00-", "")) + 1;
-//                return String.format("C00-%03d", newCustomerId);
-//            } else {
-//                return "C00-001";
-//            }
+            CustomerBOImpl customerBOimpl = new CustomerBOImpl();
+            return customerBOimpl.genarateNewId();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Failed to generate a new id " + e.getMessage()).show();
         } catch (ClassNotFoundException e) {

@@ -53,7 +53,6 @@ public class ItemDTO implements Serializable {
         this.qtyOnHand = qtyOnHand;
     }
 
-    @Override
     public String toString() {
         return "ItemTM{" +
                 "code='" + code + '\'' +

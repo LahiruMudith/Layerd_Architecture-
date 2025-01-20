@@ -52,7 +52,6 @@ public class ItemTM  {
         this.qtyOnHand = qtyOnHand;
     }
 
-    @Override
     public String toString() {
         return "ItemTM{" +
                 "code='" + code + '\'' +

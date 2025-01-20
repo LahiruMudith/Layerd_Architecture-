@@ -40,7 +40,6 @@ public class CustomerTM implements Comparable<CustomerTM> {
         this.address = address;
     }
 
-    @Override
     public String toString() {
         return "CustomerTM{" +
                 "id='" + id + '\'' +
@@ -50,7 +49,6 @@ public class CustomerTM implements Comparable<CustomerTM> {
     }
 
 
-    @Override
     public int compareTo(CustomerTM o) {
         return id.compareTo(o.getId());
     }
