@@ -55,6 +55,7 @@ public class PlaceOrderFormController {
     PlaceOrderBOImpl placeOrderBOimpl = new PlaceOrderBOImpl();
 
 
+
     public void initialize() throws SQLException, ClassNotFoundException {
 
         tblOrderDetails.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -106,8 +107,7 @@ public class PlaceOrderFormController {
 //                            "There is no such customer associated with the id " + id
                             new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + newValue + "").show();
                         }
-                        PlaceOrderBOImpl placeOrderBOimpl = new PlaceOrderBOImpl();
-                        CustomerDTO customerDTO1 = placeOrderBOimpl.searchCustomer(newValue);
+                                            CustomerDTO customerDTO1 = placeOrderBOimpl.searchCustomer(newValue);
 
                         txtCustomerName.setText(customerDTO1.getName());
                     } catch (SQLException e) {
@@ -134,13 +134,11 @@ public class PlaceOrderFormController {
                     if (!existItem(newItemCode + "")) {
 //                        throw new NotFoundException("There is no such item associated with the id " + code);
                     }
-                    PlaceOrderBOImpl placeOrderBOimpl = new PlaceOrderBOImpl();
-                    ItemDTO item = placeOrderBOimpl.searchItem(newItemCode);
+                                    ItemDTO item = placeOrderBOimpl.searchItem(newItemCode);
 
                     txtDescription.setText(item.getDescription());
                     txtUnitPrice.setText(item.getUnitPrice().setScale(2).toString());
 
-//                    txtQtyOnHand.setText(tblOrderDetails.getItems().stream().filter(detail-> detail.getCode().equals(item.getCode())).<Integer>map(detail-> item.getQtyOnHand() - detail.getQty()).findFirst().orElse(item.getQtyOnHand()) + "");
                     Optional<OrderDetailTM> optOrderDetail = tblOrderDetails.getItems().stream().filter(detail -> detail.getCode().equals(newItemCode)).findFirst();
                     txtQtyOnHand.setText((optOrderDetail.isPresent() ? item.getQtyOnHand() - optOrderDetail.get().getQty() : item.getQtyOnHand()) + "");
 
@@ -181,8 +179,7 @@ public class PlaceOrderFormController {
 
     //less boilerplate code
     private boolean existItem(String code) throws SQLException, ClassNotFoundException {
-        PlaceOrderBOImpl placeOrderBOimpl = new PlaceOrderBOImpl();
-        return placeOrderBOimpl.existItem(code);
+            return placeOrderBOimpl.existItem(code);
 //        Connection connection = DBConnection.getDbConnection().getConnection();
 //        PreparedStatement pstm = connection.prepareStatement("SELECT code FROM Item WHERE code=?");
 //        pstm.setString(1, code);
@@ -191,8 +188,7 @@ public class PlaceOrderFormController {
 
     //less boilerplate code
     boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
-        PlaceOrderBOImpl placeOrderBOimpl = new PlaceOrderBOImpl();
-        return placeOrderBOimpl.existCustomer(id);
+            return placeOrderBOimpl.existCustomer(id);
 //        Connection connection = DBConnection.getDbConnection().getConnection();
 //        PreparedStatement pstm = connection.prepareStatement("SELECT id FROM Customer WHERE id=?");
 //        pstm.setString(1, id);
@@ -202,8 +198,7 @@ public class PlaceOrderFormController {
     //less boilerplate code
     public String generateNewOrderId() {
         try {
-            PlaceOrderBOImpl placeOrderBOimpl = new PlaceOrderBOImpl();
-            return placeOrderBOimpl.genarateNewOrderId();
+                    return placeOrderBOimpl.genarateNewOrderId();
 //            Connection connection = DBConnection.getDbConnection().getConnection();
 //            Statement stm = connection.createStatement();
 //            ResultSet rst = stm.executeQuery("SELECT oid FROM `Orders` ORDER BY oid DESC LIMIT 1;");
@@ -219,8 +214,7 @@ public class PlaceOrderFormController {
     //less boilerplate code
     private void loadAllCustomerIds() {
         try {
-            PlaceOrderBOImpl placeOrderBOimpl = new PlaceOrderBOImpl();
-            ArrayList<CustomerDTO> allCustomer = placeOrderBOimpl.getAllCustomer();
+                    ArrayList<CustomerDTO> allCustomer = placeOrderBOimpl.getAllCustomer();
 
             for (CustomerDTO customerDTO : allCustomer) {
                 cmbCustomerId.getItems().add(customerDTO.getId());
@@ -235,8 +229,7 @@ public class PlaceOrderFormController {
 
     private void loadAllItemCodes() {
         try {
-            ItemBOImpl itemBOImpl = new ItemBOImpl();
-            ArrayList<ItemDTO> allItem = itemBOImpl.getAll();
+                    ArrayList<ItemDTO> allItem = placeOrderBOimpl.getAllItem();
             /*Get all items*/
             for (ItemDTO itemDTO : allItem) {
                 cmbItemCode.getItems().add(itemDTO.getCode());
@@ -335,73 +328,13 @@ public class PlaceOrderFormController {
     }
 
     public boolean saveOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) {
-        /*Transaction*/
-        Connection connection = null;
-
-        try {
-            connection = DBConnection.getDbConnection().getConnection();
-
-            boolean isIdAlreadyExist = placeOrderBOimpl.checkOrderId(orderId);
-            /*if order id already exist*/
-            if (!isIdAlreadyExist) {
-                System.out.println("Order ID Already Exists!");
-                return false;
-            }
-
-            connection.setAutoCommit(false);
-            boolean isOrderSaved = placeOrderBOimpl.saveOrder(new OrderDTO(orderId, orderDate, customerId));
-
-            if (!isOrderSaved) {
-                System.out.println("Order Saved Failed!");
-                connection.rollback();
-                connection.setAutoCommit(true);
-                return false;
-            }
-            System.out.println("Order Saved Done!");
-
-
-            for (OrderDetailDTO detail : orderDetails) {
-                boolean isOrderDetailsSaved = placeOrderBOimpl.saveOrderDetails(detail);
-                if (isOrderDetailsSaved == false) {
-                    System.out.println("Order Details Save Failed!");
-                    connection.rollback();
-                    connection.setAutoCommit(true);
-                    return false;
-                }
-                System.out.println("Order Details Save Done!");
-
-//                //Search & Update Item
-                ItemDTO item = findItem(detail.getItemCode());
-                item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
-
-                boolean IsItemUpdated = placeOrderBOimpl.updateItem(item);
-
-                if (!IsItemUpdated) {
-                    System.out.println("Item Update Failed!");
-                    connection.rollback();
-                    connection.setAutoCommit(true);
-                    return false;
-                }
-                System.out.println("Item Update Done!");
-            }
-
-            connection.commit();
-            connection.setAutoCommit(true);
-            return true;
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return false;
+            return placeOrderBOimpl.saveOrder(orderId, orderDate, customerId, orderDetails);
     }
 
 
     public ItemDTO findItem(String code) {
         try {
-            ItemBOImpl itemBOImpl = new ItemBOImpl();
-            return itemBOImpl.search(code);
+                    return placeOrderBOimpl.searchItem(code);
         } catch (SQLException e) {
             throw new RuntimeException("Failed to find the Item " + code, e);
         } catch (ClassNotFoundException e) {

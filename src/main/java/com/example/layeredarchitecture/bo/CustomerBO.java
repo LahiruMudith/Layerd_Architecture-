@@ -8,10 +8,10 @@ import java.util.ArrayList;
 public interface CustomerBO {
     public ArrayList<CustomerDTO> getAll() throws SQLException, ClassNotFoundException;
 
-    public boolean save(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException;
-    public boolean update(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException;
-    public boolean exist(String id) throws SQLException, ClassNotFoundException;
-    public boolean delete(String id) throws SQLException, ClassNotFoundException;
-    public String genarateNewId() throws SQLException, ClassNotFoundException;
-    public CustomerDTO search(String id) throws SQLException, ClassNotFoundException;
+    boolean save(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException;
+    boolean update(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException;
+    boolean exist(String id) throws SQLException, ClassNotFoundException;
+    boolean delete(String id) throws SQLException, ClassNotFoundException;
+    String genarateNewId() throws SQLException, ClassNotFoundException;
+    CustomerDTO search(String id) throws SQLException, ClassNotFoundException;
 }

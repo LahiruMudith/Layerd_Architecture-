@@ -1,10 +1,9 @@
 package com.example.layeredarchitecture.dao.custom.impl;
 
-import com.example.layeredarchitecture.dao.OrderDetailsDAO;
+import com.example.layeredarchitecture.dao.custom.dao.OrderDetailsDAO;
 import com.example.layeredarchitecture.dao.SqlUtil;
 import com.example.layeredarchitecture.model.OrderDetailDTO;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 

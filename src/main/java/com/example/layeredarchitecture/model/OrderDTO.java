@@ -2,7 +2,7 @@ package com.example.layeredarchitecture.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-
+import java.util.List;
 
 
 public class OrderDTO  {
@@ -11,6 +11,7 @@ public class OrderDTO  {
     private String customerId;
     private String customerName;
     private BigDecimal orderTotal;
+    private List<OrderDetailDTO> orderDetails;
 
     public OrderDTO() {
     }
@@ -27,6 +28,13 @@ public class OrderDTO  {
         this.orderId = orderId;
         this.orderDate = orderDate;
         this.customerId = customerId;
+    }
+
+    public OrderDTO(String orderId, LocalDate orderDate, String customerId, String text, List<OrderDetailDTO> orderDetailso) {
+        this.orderId = orderId;
+        this.orderDate = orderDate;
+        this.customerId = customerId;
+        this.orderDetails = orderDetails;
     }
 
     public String getOrderId() {

@@ -1,7 +1,6 @@
 package com.example.layeredarchitecture.controller;
 
 import com.example.layeredarchitecture.bo.custom.impl.CustomerBOImpl;
-import com.example.layeredarchitecture.dao.custom.impl.customerBOimpl;
 import com.example.layeredarchitecture.model.CustomerDTO;
 import com.example.layeredarchitecture.view.tdm.CustomerTM;
 import com.jfoenix.controls.JFXButton;
@@ -37,6 +36,8 @@ public class ManageCustomersFormController {
     public TextField txtCustomerAddress;
     public TableView<CustomerTM> tblCustomers;
     public JFXButton btnAddNewCustomer;
+    CustomerBOImpl customerBOimpl = new CustomerBOImpl();
+
 
     public void initialize() {
         tblCustomers.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -73,8 +74,7 @@ public class ManageCustomersFormController {
 //            Connection connection = DBConnection.getDbConnection().getConnection();
 //            Statement stm = connection.createStatement();
 //            ResultSet rst = stm.executeQuery("SELECT * FROM Customer");
-            CustomerBOImpl customerBOimpl = new CustomerBOImpl();
-            ArrayList<CustomerDTO> allCustomer = customerBOimpl.getAll();
+                    ArrayList<CustomerDTO> allCustomer = customerBOimpl.getAll();
 
             for (CustomerDTO customer : allCustomer){
                 tblCustomers.getItems().add(new CustomerTM(customer.getId(), customer.getName(), customer.getAddress()));
@@ -148,8 +148,7 @@ public class ManageCustomersFormController {
                 if (existCustomer(id)) {
                     new Alert(Alert.AlertType.ERROR, id + " already exists").show();
                 }
-                CustomerBOImpl customerBOimpl = new CustomerBOImpl();
-                customerBOimpl.save(new CustomerDTO(id,name,address));
+                            customerBOimpl.save(new CustomerDTO(id,name,address));
 //                Connection connection = DBConnection.getDbConnection().getConnection();
 //                PreparedStatement pstm = connection.prepareStatement("INSERT INTO Customer (id,name, address) VALUES (?,?,?)");
 //                pstm.setString(1, id);
@@ -171,7 +170,6 @@ public class ManageCustomersFormController {
                 if (!existCustomer(id)) {
                     new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
                 }
-                CustomerBOImpl customerBOimpl = new CustomerBOImpl();
                 customerBOimpl.update(new CustomerDTO(id,name,address));
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "Failed to update the customer " + id + e.getMessage()).show();
@@ -190,8 +188,7 @@ public class ManageCustomersFormController {
 
     //less boilerplate code
     boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
-        CustomerBOImpl customerBOimpl = new CustomerBOImpl();
-        return customerBOimpl.exist(id);
+            return customerBOimpl.exist(id);
 //        Connection connection = DBConnection.getDbConnection().getConnection();
 //        PreparedStatement pstm = connection.prepareStatement("SELECT id FROM Customer WHERE id=?");
 //        pstm.setString(1, id);
@@ -205,8 +202,7 @@ public class ManageCustomersFormController {
             if (!existCustomer(id)) {
                 new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
             }
-            CustomerBOImpl customerBOimpl = new CustomerBOImpl();
-            customerBOimpl.delete(id);
+                    customerBOimpl.delete(id);
 //            Connection connection = DBConnection.getDbConnection().getConnection();
 //            PreparedStatement pstm = connection.prepareStatement("DELETE FROM Customer WHERE id=?");
 //            pstm.setString(1, id);
@@ -226,8 +222,7 @@ public class ManageCustomersFormController {
     //less boilerplate code
     private String generateNewId() {
         try {
-            CustomerBOImpl customerBOimpl = new CustomerBOImpl();
-            return customerBOimpl.genarateNewId();
+                    return customerBOimpl.genarateNewId();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Failed to generate a new id " + e.getMessage()).show();
         } catch (ClassNotFoundException e) {

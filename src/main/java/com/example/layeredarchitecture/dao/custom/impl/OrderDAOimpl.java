@@ -1,15 +1,13 @@
 package com.example.layeredarchitecture.dao.custom.impl;
 
-import com.example.layeredarchitecture.dao.OrderDAO;
+import com.example.layeredarchitecture.dao.custom.dao.OrderDAO;
 import com.example.layeredarchitecture.dao.SqlUtil;
 import com.example.layeredarchitecture.model.OrderDTO;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class orderBO
- implements OrderDAO {
+public class OrderDAOimpl implements OrderDAO {
     public String genarateNewId() throws ClassNotFoundException, SQLException {
         ResultSet rst = SqlUtil.execute("SELECT oid FROM `Orders` ORDER BY oid DESC LIMIT 1;");
         return rst.next() ? String.format("OID-%03d", (Integer.parseInt(rst.getString("oid").replace("OID-", "")) + 1)) : "OID-001";
