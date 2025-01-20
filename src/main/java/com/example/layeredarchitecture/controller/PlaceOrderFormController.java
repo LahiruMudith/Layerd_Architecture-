@@ -354,15 +354,13 @@ public class PlaceOrderFormController {
     public boolean saveOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) {
         /*Transaction*/
         Connection connection = null;
-        PreparedStatement stm = null;
+//        PreparedStatement stm = null;
 
         try {
-//            OrderDAOimpl orderDAOimpl = new OrderDAOimpl();
-//            return orderDAOimpl.saveOrder(orderId, orderDate, customerId, orderDetails);
             connection = DBConnection.getDbConnection().getConnection();
 
             OrderDAOimpl orderDAOimpl = new OrderDAOimpl();
-            boolean isIdAlreadyExist = orderDAOimpl.checkOrderId(orderId, stm, connection);
+            boolean isIdAlreadyExist = orderDAOimpl.checkOrderId(orderId, connection);
 //            stm = connection.prepareStatement("SELECT oid FROM `Orders` WHERE oid=?");
 //            stm.setString(1, orderId);
             /*if order id already exist*/
@@ -371,7 +369,7 @@ public class PlaceOrderFormController {
             }
 
             connection.setAutoCommit(false);
-            boolean isOrderSaved = orderDAOimpl.saveOrder(orderId, orderDate, customerId, stm, connection);
+            boolean isOrderSaved = orderDAOimpl.saveOrder(orderId, orderDate, customerId, connection);
 //            stm = connection.prepareStatement("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)");
 //            stm.setString(1, orderId);
 //            stm.setDate(2, Date.valueOf(orderDate));
@@ -400,7 +398,7 @@ public class PlaceOrderFormController {
 //                    connection.setAutoCommit(true);
 //                    return false;
 //                }
-                boolean b = orderDetailsDAOimpl.saveOrderDetails(orderId, detail, stm, connection);
+                boolean b = orderDetailsDAOimpl.saveOrderDetails(orderId, detail, connection);
                 if (b == false) {
                     System.out.println("Order Details Save Failed!");
                     connection.rollback();

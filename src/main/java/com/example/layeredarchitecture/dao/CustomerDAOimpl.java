@@ -48,6 +48,7 @@ public class CustomerDAOimpl implements CustomerDAO{
         if (rst.next()) {
             String id = rst.getString("id");
             int newCustomerId = Integer.parseInt(id.replace("C00-", "")) + 1;
+            System.out.println(String.format("C00-%03d", newCustomerId));
             return String.format("C00-%03d", newCustomerId);
         } else {
             return "C00-001";

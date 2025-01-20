@@ -248,6 +248,7 @@ public class ManageCustomersFormController {
         } else {
             String id = getLastCustomerId();
             int newCustomerId = Integer.parseInt(id.replace("C", "")) + 1;
+            System.out.println(newCustomerId);
             return String.format("C00-%03d", newCustomerId);
         }
 

@@ -1,5 +1,6 @@
 package com.example.layeredarchitecture.dao;
 
+import com.example.layeredarchitecture.SqlUtil;
 import com.example.layeredarchitecture.model.ItemDTO;
 import com.example.layeredarchitecture.model.OrderDetailDTO;
 
@@ -10,18 +11,19 @@ import java.util.List;
 
 public class OrderDetailsDAOimpl implements OrderDetailsDAO {
     @Override
-    public boolean saveOrderDetails(String orderId, OrderDetailDTO detail, PreparedStatement stm, Connection connection) throws SQLException, ClassNotFoundException {
-        stm = connection.prepareStatement("INSERT INTO OrderDetails (oid, itemCode, unitPrice, qty) VALUES (?,?,?,?)");
-//        for (OrderDetailDTO detail : orderDetails) {
-            stm.setString(1, orderId);
-            stm.setString(2, detail.getItemCode());
-            stm.setBigDecimal(3, detail.getUnitPrice());
-            stm.setInt(4, detail.getQty());
-
-            if (stm.executeUpdate() != 1) {
-                return false;
-            }
-//        }
-        return true;
+    public boolean saveOrderDetails(String orderId, OrderDetailDTO detail, Connection connection) throws SQLException, ClassNotFoundException {
+//        PreparedStatement stm = connection.prepareStatement("INSERT INTO OrderDetails (oid, itemCode, unitPrice, qty) VALUES (?,?,?,?)");
+////        for (OrderDetailDTO detail : orderDetails) {
+//            stm.setString(1, orderId);
+//            stm.setString(2, detail.getItemCode());
+//            stm.setBigDecimal(3, detail.getUnitPrice());
+//            stm.setInt(4, detail.getQty());
+//
+//            if (stm.executeUpdate() != 1) {
+//                return false;
+//            }
+////        }
+//        return true;
+        return SqlUtil.execute("INSERT INTO OrderDetails (oid, itemCode, unitPrice, qty) VALUES (?,?,?,?)", orderId, detail.getItemCode(), detail.getUnitPrice(), detail.getQty());
     }
 }

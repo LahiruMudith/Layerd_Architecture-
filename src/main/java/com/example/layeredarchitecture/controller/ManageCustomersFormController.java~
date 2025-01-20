@@ -182,7 +182,6 @@ public class ManageCustomersFormController {
             selectedCustomer.setName(name);
             selectedCustomer.setAddress(address);
             tblCustomers.refresh();
-            System.out.printf("tnl refeshed");
         }
 
         btnAddNewCustomer.fire();

@@ -4,6 +4,7 @@ import com.example.layeredarchitecture.db.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SqlUtil {
@@ -15,11 +16,12 @@ public class SqlUtil {
             pstm.setObject(i+1, obj[i]);
         }
 
-        if (sql.startsWith("SELECT")){
-            return (T) pstm.executeQuery();
+        if (sql.startsWith("SELECT") & sql.startsWith("select")){
+            ResultSet rst = pstm.executeQuery();
+            return (T) rst;
         }else {
-            int i = pstm.executeUpdate();
-            return  (T) ((Boolean)i);
+            pstm.executeUpdate()>0
+            return  (T) (Boolean) ();
         }
 
     }

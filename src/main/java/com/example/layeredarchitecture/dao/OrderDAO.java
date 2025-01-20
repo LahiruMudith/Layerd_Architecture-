@@ -7,6 +7,6 @@ import java.time.LocalDate;
 
 public interface OrderDAO {
     public String genarateNewOrderId() throws ClassNotFoundException, SQLException;
-    public boolean checkOrderId(String orderId, PreparedStatement stm, Connection connection) throws SQLException, ClassNotFoundException;
-    public boolean saveOrder(String orderId, LocalDate orderDate, String customerId, PreparedStatement stm, Connection connection) throws SQLException;
+    public boolean checkOrderId(String orderId, Connection connection) throws SQLException, ClassNotFoundException;
+    public boolean saveOrder(String orderId, LocalDate orderDate, String customerId, Connection connection) throws SQLException, ClassNotFoundException;
 }
