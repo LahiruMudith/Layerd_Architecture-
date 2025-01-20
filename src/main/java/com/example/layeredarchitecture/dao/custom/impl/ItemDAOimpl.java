@@ -2,7 +2,7 @@ package com.example.layeredarchitecture.dao.custom.impl;
 
 import com.example.layeredarchitecture.dao.custom.dao.ItemDAO;
 import com.example.layeredarchitecture.dao.SqlUtil;
-import com.example.layeredarchitecture.model.ItemDTO;
+import com.example.layeredarchitecture.dto.ItemDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ public class ItemDAOimpl implements ItemDAO {
 public boolean save(ItemDTO itemDTO) throws SQLException, ClassNotFoundException {
         return SqlUtil.execute("INSERT INTO Item (code, description, unitPrice, qtyOnHand) VALUES (?,?,?,?)", itemDTO.getCode(), itemDTO.getDescription(), itemDTO.getUnitPrice(), itemDTO.getQtyOnHand());
     }
-public boolean update(ItemDTO itemDTO) throws SQLException, ClassNotFoundException {
+ public boolean update(ItemDTO itemDTO) throws SQLException, ClassNotFoundException {
         return SqlUtil.execute("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?", itemDTO.getDescription(), itemDTO.getUnitPrice(), itemDTO.getQtyOnHand(), itemDTO.getCode());
     }
 //customerBOimpl//    public boolean update(ItemDTO itemDTO) throws SQLException, ClassNotFoundException {

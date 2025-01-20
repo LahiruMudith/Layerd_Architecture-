@@ -3,7 +3,7 @@ package com.example.layeredarchitecture.dao.custom.impl;
 import com.example.layeredarchitecture.dao.custom.dao.CustomerDAO;
 import com.example.layeredarchitecture.dao.SqlUtil;
 import com.example.layeredarchitecture.db.DBConnection;
-import com.example.layeredarchitecture.model.CustomerDTO;
+import com.example.layeredarchitecture.dto.CustomerDTO;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,10 +1,7 @@
 package com.example.layeredarchitecture.dao;
 
 import com.example.layeredarchitecture.dao.custom.dao.CustomerDAO;
-import com.example.layeredarchitecture.dao.custom.impl.CustomerDAOimpl;
-import com.example.layeredarchitecture.dao.custom.impl.ItemDAOimpl;
-import com.example.layeredarchitecture.dao.custom.impl.OrderDetailsDAOimpl;
-import com.example.layeredarchitecture.dao.custom.impl.QuaryDAOImpl;
+import com.example.layeredarchitecture.dao.custom.impl.*;
 
 public class DAOFactory {
     private static DAOFactory daoFactory;
@@ -22,7 +19,7 @@ public class DAOFactory {
             case CUSTOMER:
                 return new CustomerDAOimpl();
             case ORDER:
-                return new ItemDAOimpl();
+                return new OrderDAOimpl();
             case ITEM:
                 return new ItemDAOimpl();
             case ORDERDETAILS:

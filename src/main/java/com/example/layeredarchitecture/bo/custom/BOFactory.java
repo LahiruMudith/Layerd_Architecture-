@@ -9,7 +9,7 @@ public class BOFactory {
     private static BOFactory boFactory;
     private BOFactory() {
     }
-    public BOFactory getInstance (){
+    public static BOFactory getInstance (){
         return (boFactory == null) ? boFactory = new BOFactory() : boFactory;
     }
     public enum BOType {
