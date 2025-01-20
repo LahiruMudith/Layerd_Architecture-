@@ -1,9 +1,8 @@
 package com.example.layeredarchitecture.bo.custom.impl;
 
-import com.example.layeredarchitecture.bo.CustomerBO;
+import com.example.layeredarchitecture.bo.custom.bo.CustomerBO;
 import com.example.layeredarchitecture.dao.DAOFactory;
 import com.example.layeredarchitecture.dao.custom.dao.CustomerDAO;
-import com.example.layeredarchitecture.dao.custom.impl.CustomerDAOimpl;
 import com.example.layeredarchitecture.model.CustomerDTO;
 
 import java.sql.SQLException;
